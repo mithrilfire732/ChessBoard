@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessBoard
+namespace ChessLib
 {
     public abstract class Piece   //abstract class is only used as a basis for other classes
     {
@@ -30,7 +30,7 @@ namespace ChessBoard
         {
             this.White = White;
         }
-        public abstract bool canMove(Board board, Square start, Square end);
+        public abstract bool CanMove(Board board, Square start, Square end);
 
     }
 }

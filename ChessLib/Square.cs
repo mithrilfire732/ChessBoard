@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessBoard
+namespace ChessLib
 {
     public class Square
     {
@@ -14,7 +14,7 @@ namespace ChessBoard
 
         public Square(int x, int y, Piece piece)
         {
-            this.piece = (piece);
+            this.piece = null;
             this.x = x;
             this.y = y;
         }
@@ -29,9 +29,9 @@ namespace ChessBoard
             this.piece = p;
         }
 
-        public int getX(int x)
+        public int getX()
         {
-            return this.x;
+            return x;
         }
 
         public void setX(int x)
@@ -39,14 +39,25 @@ namespace ChessBoard
             this.x = x;
         }
 
-        public int getY(int y)
+        public int getY()
         {
-            return this.y;
+            return y;
         }
 
         public void setY(int y)
         {
             this.y = y;
         }
+
+        public bool IsOccupied()
+        {
+            if(piece != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
     }
 }
