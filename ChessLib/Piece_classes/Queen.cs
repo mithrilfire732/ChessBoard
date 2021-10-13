@@ -12,5 +12,6 @@ namespace ChessLib
         {
             
         }
+        public Queen(bool color) : base(color) { }
     }
 }

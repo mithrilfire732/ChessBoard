@@ -10,11 +10,6 @@ namespace ChessLib
     {
         private bool castlingDone = false;
 
-        public King(bool white)
-        {
-            this.White = white;
-        }
-
         public bool IsCastleValid()
         {
             if (this.castlingDone)
@@ -29,14 +24,23 @@ namespace ChessLib
         {
             this.castlingDone = CastlingDone;
         }
-        public override bool canMove(Board board, Square start, Square end)
+        public override bool CanMove(Board board, Square start, Square end)
         {
+            var xdelta = Math.Abs(start.getX() - end.getX());
+            var ydelta = Math.Abs(start.getY() - end.getY());
             if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
             {
                 return false;
             }
-            else if()
+            else if(
+                           (xdelta <= 1)
+                                && (ydelta <= 1)
+                                    &&(xdelta+ydelta>0))
+            {
+                return true;
+            }
         }
+        public King (bool color) : base(color) { }
 
     }
 }

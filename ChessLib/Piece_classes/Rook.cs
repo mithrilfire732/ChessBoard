@@ -25,5 +25,6 @@ namespace ChessLib
                 return false;
             }
         }
+            public Rook(bool color):base(color){ }
     }
 }
