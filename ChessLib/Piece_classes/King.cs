@@ -24,19 +24,20 @@ namespace ChessLib
         {
             this.castlingDone = CastlingDone;
         }
-        public override bool CanMove(Board board, Square start, Square end)
+        public override bool CanMove(Square start, Square end)
         {
             var xdelta = Math.Abs(start.getX() - end.getX());
             var ydelta = Math.Abs(start.getY() - end.getY());
-            if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
-            {
-                return false;
-            }
-            else if(
+            if(
                            (xdelta <= 1)
                                 && (ydelta <= 1)
                                     &&(xdelta+ydelta>0))
             {
+                if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
+                {
+                    return false;
+                }
+                
                 return true;
             }
         }

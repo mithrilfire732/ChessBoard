@@ -8,13 +8,14 @@ namespace ChessLib
 {
     public class Square
     {
-        private Piece piece;
-        private int x;
-        private int y;
+        private Piece piece { get; set; } = null;
+        private int x { get; set; }
+        private int y { get; set; }
+
+        public Square(int x, int y) { }
 
         public Square(int x, int y, Piece piece)
         {
-            this.piece = null;
             this.x = x;
             this.y = y;
         }

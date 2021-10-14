@@ -30,7 +30,7 @@ namespace ChessLib
         {
             this.White = White;
         }
-        public abstract bool CanMove(Board board, Square start, Square end);
+        public abstract bool CanMove(Square start, Square end);
 
         public Piece(bool color) {
             White = color;

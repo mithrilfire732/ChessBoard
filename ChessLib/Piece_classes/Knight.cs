@@ -8,7 +8,7 @@ namespace ChessLib
 {
     class Knight : Piece
     {
-        public override bool CanMove(Board board, Square start, Square end)
+        public override bool CanMove(Square start, Square end)
         {
             // we can't move the piece to a spot that has
             // a piece of the same colour
@@ -21,5 +21,6 @@ namespace ChessLib
             int y = Math.Abs(start.getY() - end.getY());
             return x * y == 2;
         }
+        public Knight(bool color) : base(color) { }
     }
 }

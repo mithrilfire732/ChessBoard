@@ -8,7 +8,7 @@ namespace ChessLib
 {
     public class Bishop : Piece
     {
-        public override bool CanMove(Board board, Square start, Square end)
+        public override bool CanMove(Square start, Square end)
         {
             if (Math.Abs(start.getX() - end.getX()) == Math.Abs(start.getY() - end.getY()))
             {
@@ -18,5 +18,6 @@ namespace ChessLib
             else return false;
 
         }
+        public Bishop(bool color) : base(color) { }
     }
 }
