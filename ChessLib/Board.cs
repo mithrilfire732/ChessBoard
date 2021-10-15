@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessLib.Piece_classes;
+using System;
 
 
 namespace ChessLib
@@ -31,7 +32,7 @@ namespace ChessLib
 
             for (int i = 0; i < 8; i++)
             {
-                board.squares[1, i] = new Square(1, i, Pawn(true));
+                board.squares[1, i] = new Square(1, i, new Pawn(true));
             }
             //Black Pieces
             board.squares[7, 0] = new Square(7, 0, new Rook(false));
@@ -46,7 +47,7 @@ namespace ChessLib
 
             for (int i = 0; i < 8; i++)
             {
-                board.squares[6, i] = new Square(6, i, Pawn(false));
+                board.squares[6, i] = new Square(6, i, new Pawn(false));
             }
 
             //initializes empty squares
