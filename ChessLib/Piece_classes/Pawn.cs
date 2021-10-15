@@ -14,7 +14,7 @@ namespace ChessLib.Piece_classes
         {
             var xdelta = end.getX() - start.getX();
             var ydelta = end.getY() - start.getY();
-            if ((end.getPiece() == null) && xdelta==0) //no piece and end square does not move laterally
+            if ((end.getPiece() == null) && xdelta==0) //no target piece and end square does not move laterally
             {
                 if (isWhite())  // code runs if piece is white
                 {

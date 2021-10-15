@@ -28,18 +28,19 @@ namespace ChessLib
         {
             var xdelta = Math.Abs(start.getX() - end.getX());
             var ydelta = Math.Abs(start.getY() - end.getY());
-            if(
+            if (
                            (xdelta <= 1)
                                 && (ydelta <= 1)
-                                    &&(xdelta+ydelta>0))
+                                    && (xdelta + ydelta > 0))
             {
                 if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
                 {
                     return false;
                 }
-                
-                return true;
+
+                else return true;
             }
+            else return false;
         }
         public King (bool color) : base(color) { }
 

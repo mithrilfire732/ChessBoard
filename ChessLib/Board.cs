@@ -58,6 +58,8 @@ namespace ChessLib
                     board.squares[i, j] = new Square(i, j);
                 }
             }
+
+            Console.WriteLine("The board is set!");
         }
     }
 }
