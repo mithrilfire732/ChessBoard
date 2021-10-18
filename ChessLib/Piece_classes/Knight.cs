@@ -21,6 +21,6 @@ namespace ChessLib
             int y = Math.Abs(start.getY() - end.getY());
             return x * y == 2;
         }
-        public Knight(bool color) : base(color) { }
+        public Knight(bool color,int id) : base(color,id) { }
     }
 }

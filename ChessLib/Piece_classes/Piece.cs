@@ -8,8 +8,9 @@ namespace ChessLib
 {
     public abstract class Piece   //abstract class is only used as a basis for other classes
     {
-        public bool Dead { get; set; } = false;
-        public bool White { get; set; }
+        readonly int Id;
+        private bool Dead { get; set; } = false;
+        private bool White { get; set; }
 
         public void killPiece(bool killed)
         {
@@ -30,10 +31,16 @@ namespace ChessLib
         {
             this.White = White;
         }
+
+        public int GetId()
+        {
+            return this.Id;
+        }
         public abstract bool CanMove(Square start, Square end);
 
-        public Piece(bool color) {
+        public Piece(bool color,int id) {
             White = color;
+            Id = id;
         }
 
     }

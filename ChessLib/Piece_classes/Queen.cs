@@ -27,6 +27,6 @@ namespace ChessLib
             }
             else return false;
         }
-        public Queen(bool color) : base(color) { }
+        public Queen(bool color,int id) : base(color,id) { }
     }
 }

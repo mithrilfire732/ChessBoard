@@ -58,6 +58,6 @@ namespace ChessLib.Piece_classes
             else return false; //piece of same color
         }
 
-        public Pawn(bool color) :base(color){ }
+        public Pawn(bool color,int id) :base(color,id){ }
     }
 }

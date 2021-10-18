@@ -8,7 +8,10 @@ namespace ChessLib
 {
     public class Player
     {
-        protected bool White { get; set; }
-        protected List<Piece> PlayerPieces { get; set; }
+        public string Name { get; set; }
+        public bool White { get; set; }
+        public Dictionary<int,Piece> PlayerPieces { get; set; }
+
+
     }
 }

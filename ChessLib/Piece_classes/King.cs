@@ -42,7 +42,7 @@ namespace ChessLib
             }
             else return false;
         }
-        public King (bool color) : base(color) { }
+        public King (bool color,int id) : base(color, id) { }
 
     }
 }
