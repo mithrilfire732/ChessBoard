@@ -11,6 +11,7 @@ namespace ChessLib
         readonly int Id;
         private bool Dead { get; set; } = false;
         private bool White { get; set; }
+        private Square Square { get; set; }
 
         public void killPiece(bool killed)
         {
@@ -37,6 +38,16 @@ namespace ChessLib
             return this.Id;
         }
         public abstract bool CanMove(Square start, Square end);
+
+        public Square GetSquare()
+        {
+            return this.Square;
+        }
+
+        public void SetSquare(Square Square)
+        {
+            this.Square = Square;
+        }
 
         public Piece(bool color,int id) {
             White = color;

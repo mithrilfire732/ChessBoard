@@ -74,6 +74,18 @@ namespace ChessLib
                 }
             }
 
+            foreach (Square square in board.squares)
+            {
+                if (square.getPiece()==null)
+                {
+                    continue;
+                }
+                else
+                {
+                    square.getPiece().SetSquare(square);
+                }
+            }
+
             Console.WriteLine("The board is set!");
             return board;
 
@@ -86,12 +98,19 @@ namespace ChessLib
         {
             Piece moved = start.getPiece();
             Piece captured = end.getPiece();
-            end.setPiece(start.getPiece());
+                                           //// In order to decrease necessary iterations for IsCheck() and Checkmate(), 
+                                           /// Pieces have Squares as properties and vice versa.
+                                           /// Therefore in order to check, both must be updated and reset if check fails.
+            end.setPiece(moved);
             start.setPiece(null);
+            moved.SetSquare(start);
+            captured.SetSquare(null);
             if (IsCheck(player))    //if illegal move, resets pieces
             {
                 start.setPiece(moved);
                 end.setPiece(captured);
+                moved.SetSquare(start);
+                captured.SetSquare(end);
                 throw new Exception("Invalid move, player in check");
             }
             else
@@ -144,38 +163,43 @@ namespace ChessLib
 
         public bool IsCheck(Player player)
         {
+            Player mover = player == Player1 ? Player1 : Player2;
+            Player defender = player == Player1 ? Player2 : Player1;
             Square check_square = null;
-            foreach (Piece p in player.PlayerPieces.Values)
+            foreach (Piece p in mover.PlayerPieces.Values)
             {
                 if (p.GetType()==typeof(King))
                 {
-                    foreach (Square square in board.squares)
-                    {
-                        if (square.getPiece()==p)
-                        {
-                            check_square = square;
-                            break;
-                        }
-                    }
+                    check_square = p.GetSquare();
                 }
             else continue;
             }
-            foreach (Square s in board.squares)
+
+            foreach (Piece p in defender.PlayerPieces.Values)
             {
-                if (s.getPiece() == null || s.getPiece().isWhite() == player.White)
+                if (p.CanMove(p.GetSquare(), check_square))
                 {
-                    continue;
-                }
-                else if (s.getPiece().isWhite() != player.White)
-                {
-                    if (s.getPiece().CanMove(s, check_square))
-                    {
-                        return true;
-                    }
-                    else continue;
+                    return true;
                 }
                 else continue;
             }
+
+            //foreach (Square s in board.squares)
+            //{
+            //    if (s.getPiece() == null || s.getPiece().isWhite() == player.White)
+            //    {
+            //        continue;
+            //    }
+            //    else if (s.getPiece().isWhite() != player.White)
+            //    {
+            //        if (s.getPiece().CanMove(s, check_square))
+            //        {
+            //            return true;
+            //        }
+            //        else continue;
+            //    }
+            //    else continue;
+            //}
 
             return false;
 
@@ -220,6 +244,54 @@ namespace ChessLib
             }
 
             else Check = false;
+
+        }
+
+            // Checkmate currently only checks if king can natural move out of check
+            // Other methods of avoiding mate must still be accounted for
+            //These include: removing the defender (solved by adding pieces who CanMove() to a list, if more than one then do not check captures, if one check can captures
+            // Blocking: requires development of path sense which varies by piece, harder task
+
+        public bool Checkmate(Player player)
+        {
+            Player mover = player == Player1 ? Player1 : Player2;
+            Player defender = player == Player1 ? Player2 : Player1;
+            Piece king = null;
+            List<Square> moves = new List<Square>();
+
+            foreach (Piece p in mover.PlayerPieces.Values)
+            {
+                if (p.GetType() == typeof(King))
+                {
+                    p.GetSquare();
+                }
+                else continue;
+            }
+            foreach (Square s in board.squares)
+            {
+                if (king.CanMove(king.GetSquare(), s))
+                {
+                    moves.Add(s);
+                }
+                
+            }
+            foreach (Piece p in defender.PlayerPieces.Values)
+            {
+                foreach (Square square in moves)
+                {
+                    if (p.CanMove(p.GetSquare(), square))
+                    {
+                        moves.Remove(square);
+                    }
+                    if (!moves.Any())
+                    {
+                        return true;
+                    }
+
+                }
+
+            }
+            return false;
 
         }
 
