@@ -8,6 +8,7 @@ namespace ChessLib
 {
     class Rook : Piece
     {
+        public override string Name { get; set; } = "Rook";
         public override bool CanMove(Square start, Square end)
         {
             if ((start.getX() - end.getX() == 0) && Math.Abs(start.getY() - end.getY()) > 0)

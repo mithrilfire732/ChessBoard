@@ -8,6 +8,7 @@ namespace ChessLib
 {
     class King : Piece
     {
+        public override string Name { get; set; } = "King";
         private bool castlingDone = false;
 
         public bool IsCastleValid()
@@ -33,10 +34,15 @@ namespace ChessLib
                                 && (ydelta <= 1)
                                     && (xdelta + ydelta > 0))
             {
-                if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
+                if (end.getPiece() == null)
+                {
+                    return true;
+                }
+                else if (end.getPiece().isWhite() == this.isWhite())  // checks if the piece on the destination square is the same color as this piece
                 {
                     return false;
                 }
+                
 
                 else return true;
             }

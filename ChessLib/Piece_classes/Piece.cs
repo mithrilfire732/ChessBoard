@@ -8,6 +8,7 @@ namespace ChessLib
 {
     public abstract class Piece   //abstract class is only used as a basis for other classes
     {
+        public abstract string Name { get; set; }
         readonly int Id;
         private bool Dead { get; set; } = false;
         private bool White { get; set; }

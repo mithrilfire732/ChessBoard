@@ -9,7 +9,8 @@ namespace ChessLib.Piece_classes
     class Pawn : Piece
     {
         // Class method CanMove does not currently support long first moves or en passant capture
-        
+
+        public override string Name { get; set; } = "Pawn";
         public override bool CanMove(Square start, Square end)
         {
             var xdelta = end.getX() - start.getX();

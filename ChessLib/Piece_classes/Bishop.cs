@@ -8,6 +8,7 @@ namespace ChessLib
 {
     public class Bishop : Piece
     {
+        public override string Name { get; set; } = "Bishop";
         public override bool CanMove(Square start, Square end)
         {
             if (Math.Abs(start.getX() - end.getX()) == Math.Abs(start.getY() - end.getY()))

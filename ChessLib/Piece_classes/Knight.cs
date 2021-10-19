@@ -8,6 +8,7 @@ namespace ChessLib
 {
     class Knight : Piece
     {
+        public override string Name { get; set; } = "Knight";
         public override bool CanMove(Square start, Square end)
         {
             // we can't move the piece to a spot that has

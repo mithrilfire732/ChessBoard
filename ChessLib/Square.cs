@@ -12,12 +12,19 @@ namespace ChessLib
         private int x { get; set; }
         private int y { get; set; }
 
-        public Square(int x, int y) { }
+        public Square() { }
+
+        public Square(int x, int y) 
+        {
+            this.x = x;
+            this.y = y; 
+        }
 
         public Square(int x, int y, Piece piece)
         {
             this.x = x;
             this.y = y;
+            this.piece = piece; 
         }
 
         public Piece getPiece()  // returns piece stored on this spot

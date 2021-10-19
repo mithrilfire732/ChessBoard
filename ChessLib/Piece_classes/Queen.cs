@@ -8,6 +8,7 @@ namespace ChessLib
 {
     class Queen : Piece
     {
+        public override string Name { get; set; } = "Queen";
         public override bool CanMove(Square start, Square end)
         {
             if (Math.Abs(start.getX() - end.getX()) == Math.Abs(start.getY() - end.getY()))
