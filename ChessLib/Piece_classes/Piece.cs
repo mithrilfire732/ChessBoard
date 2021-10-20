@@ -50,6 +50,24 @@ namespace ChessLib
             this.Square = Square;
         }
 
+            // ValidTarget() checks if the piece passed in is null or differemt than this piece, returns true
+            // Do not call outside of individual piece methods as it WILL mess with pawn move rules
+        public bool ValidTarget(Piece piece)
+        {
+            if (piece==null)
+            {
+                return true;
+            }
+            else if (this.isWhite() != piece.isWhite())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public Piece(bool color,int id) {
             White = color;
             Id = id;

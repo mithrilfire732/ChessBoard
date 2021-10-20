@@ -129,33 +129,39 @@ namespace ChessLib
             Piece moved = start.getPiece();
             Piece captured = end.getPiece();
             bool capture = captured != null;
-                                           //// In order to decrease necessary iterations for IsCheck() and Checkmate(), 
-                                           /// Pieces have Squares as properties and vice versa.
-                                           /// Therefore in order to check, both must be updated and reset if check fails.
-            end.setPiece(moved);
-            start.setPiece(null);
-            moved.SetSquare(end); //should be set to end
-            if (capture)
+            //// In order to decrease necessary iterations for IsCheck() and Checkmate(), 
+            /// Pieces have Squares as properties and vice versa.
+            /// Therefore in order to check, both must be updated and reset if check fails.
+            if (moved.CanMove(start,end))
             {
-                captured.SetSquare(null);
-            }
-            if (IsCheck(defender))    //if illegal move, resets pieces
-            {
-                start.setPiece(moved);
-                end.setPiece(captured);
-                moved.SetSquare(start);
-                if (capture) { captured.SetSquare(end); }
-                throw new Exception("Invalid move, player in check");
-            }
-            else
-            {
+
+                end.setPiece(moved);
+                start.setPiece(null);
+                moved.SetSquare(end); //should be set to end
                 if (capture)
                 {
-                    captured.killPiece(true);
-                    UpdatePieceInDict(captured);
+                    captured.SetSquare(null);
                 }
-                UpdatePieceInDict(moved);
+                if (IsCheck(defender))    //if illegal move, resets pieces
+                {
+                    start.setPiece(moved);
+                    end.setPiece(captured);
+                    moved.SetSquare(start);
+                    if (capture) { captured.SetSquare(end); }
+                    throw new Exception("Invalid move, player in check");
+                }
+                else
+                {
+                    if (capture) // if capture
+                    {
+                        captured.killPiece(true);
+                        UpdatePieceInDict(captured);
+                    }
+                    UpdatePieceInDict(moved);
+                }
             }
+            else { throw new Exception("Invalid move"); }
+            
         }
 
 
@@ -212,7 +218,8 @@ namespace ChessLib
             {
                 if (p.GetType() == typeof(King))
                 {
-                    check_square = p.GetSquare(); // break insert to save run time
+                    check_square = p.GetSquare();
+                    break;
                 }
                 else continue;
             }

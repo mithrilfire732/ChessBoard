@@ -11,11 +11,15 @@ namespace ChessLib
         public override string Name { get; set; } = "Bishop";
         public override bool CanMove(Square start, Square end)
         {
-            if (Math.Abs(start.getX() - end.getX()) == Math.Abs(start.getY() - end.getY()))
+            var xdelta = Math.Abs(start.getX() - end.getX());
+            var ydelta = Math.Abs(start.getY() - end.getY());
+            if (ValidTarget(end.getPiece()))
             {
-                // insert check that every square between start and end is empty
-                return true;
-            }
+
+                return xdelta == ydelta;
+                    // insert check that every square between start and end is empty
+
+            } 
             else return false;
 
         }
