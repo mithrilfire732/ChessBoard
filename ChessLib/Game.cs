@@ -152,7 +152,7 @@ namespace ChessLib
                 }
                 else
                 {
-                    if (capture) // if capture
+                    if (capture) // if capture, updates captured piece to be dead and have null square
                     {
                         captured.killPiece(true);
                         UpdatePieceInDict(captured);

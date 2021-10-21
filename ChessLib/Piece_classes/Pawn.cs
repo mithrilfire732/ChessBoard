@@ -35,7 +35,7 @@ namespace ChessLib.Piece_classes
                     else return false;
                 }
             }
-            else if (end.getPiece().isWhite() != this.isWhite()) //target piece of different color
+            else if ((end.getPiece() != null) && (end.getPiece().isWhite() != this.isWhite())) //target piece exists of different color
             {
                 if (isWhite())
                 {

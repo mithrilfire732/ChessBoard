@@ -16,27 +16,9 @@ namespace ChessLib
             if (ValidTarget(end.getPiece()))
             {
                 return xdelta * ydelta == 0 && xdelta + ydelta != 0;
-                
-                
-                //if ((start.getX() - end.getX() == 0) && Math.Abs(start.getY() - end.getY()) > 0)
-                //{
-                //    // insert check that every square between start and end is empty
-                //    return true;
-                //}
-                //else if ((start.getY() - end.getY() == 0) && Math.Abs(start.getX() - end.getX()) > 0)
-                //{
-                //    // insert check that every square between start and end is empty
-                //    return true;
-                //}
-                //else
-                //{
-                //    return false;
-                //}
             }
-            else
-            {
-                return false;
-            }
+
+            else return false;
         }
             public Rook(bool color,int id):base(color,id){ }
     }

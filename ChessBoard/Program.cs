@@ -64,7 +64,11 @@ namespace ChessBoard
                     }
                     else continue;
                 }
-                confirm = false;
+                confirm = false; //add check for checkmate
+                if(game.Win != null)
+                {
+                    break;
+                }
 
                 while (!confirm)
                 {
@@ -105,6 +109,7 @@ namespace ChessBoard
                 }
                 confirm = false;
             }
+            Console.WriteLine($"{game.Win.Name} wins!");
         }
     }
 }
