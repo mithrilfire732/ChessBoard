@@ -101,6 +101,7 @@ namespace ChessLib
             
             Move(mover, start, end);
             
+
             if (IsCheck(mover))
             {
                 if (Checkmate(mover))
@@ -132,7 +133,7 @@ namespace ChessLib
             //// In order to decrease necessary iterations for IsCheck() and Checkmate(), 
             /// Pieces have Squares as properties and vice versa.
             /// Therefore in order to check, both must be updated and reset if check fails.
-            if (moved.CanMove(start,end))
+            if (moved.CanMove(start,end)&& !Obstructed(moved.InTheWay(start,end)))
             {
 
                 end.setPiece(moved);
@@ -162,6 +163,29 @@ namespace ChessLib
             }
             else { throw new Exception("Invalid move"); }
             
+        }
+
+        private bool Obstructed(List<int[]> tests)
+        {
+            if(tests == null)
+            {
+                return false;
+            }
+            else
+            {
+
+                foreach (int[] xy in tests)
+                {
+                    var square = board.GetSquare(xy[0], xy[1]);
+                    if (square.getPiece() != null)
+                    {
+                        return true;
+                    }
+                    else continue;
+                }
+                return false;
+            }
+
         }
 
 
@@ -228,7 +252,7 @@ namespace ChessLib
             {
                 Square start = new Square() { }; //not sure if this is needed
                 start = p.GetSquare();
-                if (p.CanMove(start, check_square))
+                if (p.CanMove(start, check_square)&&!Obstructed(p.InTheWay(start,check_square)))
                 {
                     return true;
                 }

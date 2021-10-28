@@ -68,6 +68,49 @@ namespace ChessLib
             }
         }
 
+        // Gathers a collection of x,y for squares that need checked in the Game class for a piece to determine if a move is obstructed, override in Knight, King, and Pawn classes.
+        public virtual List<int[]> InTheWay(Square start, Square end)
+        {
+            var x1 = start.getX();
+            var y1 = start.getY();
+            var x2 = end.getX();
+            var y2 = end.getY();
+            var xdelta = x1 - x2;
+            var ydelta = y1 - y2;
+            int[] inc = new int[2];
+            List<int[]> testsq = new List<int[]>();
+            switch (xdelta)
+            {
+                case > 0:
+                    inc[0] = 1;
+                    break;
+                case < 0:
+                    inc[0] = -1;
+                    break;
+                default:
+                    inc[0] = 0;
+                    break;
+            }
+            switch (ydelta)
+            {
+                case > 0:
+                    inc[1] = 1;
+                    break;
+                case < 0:
+                    inc[1] = -1;
+                    break;
+                default:
+                    inc[1] = 0;
+                    break;
+            }
+            for (int[] i = { x1, y1 }; i[0] < x2 && i[1] < y2; i.Zip(inc, (x, y) => x + y))
+            {
+                testsq.Add(i);
+            }
+            return testsq;
+
+        }
+
         public Piece(bool color,int id) {
             White = color;
             Id = id;

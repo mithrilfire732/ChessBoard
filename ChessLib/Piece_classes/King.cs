@@ -42,6 +42,11 @@ namespace ChessLib
                 else return false;
         }
 
+        public override List<int[]> InTheWay(Square start, Square end)
+        {
+            return null;
+        }
+
         public King (bool color,int id) : base(color, id) { }
 
     }

@@ -23,6 +23,7 @@ namespace ChessLib
             else return false;
 
         }
+
         public Bishop(bool color, int id) : base(color, id) { }
     }
 }

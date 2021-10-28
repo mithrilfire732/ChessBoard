@@ -40,6 +40,13 @@ namespace ChessLib
             //    return x * y == 2;
             //}
         }
+
+        public override List<int[]> InTheWay(Square start, Square end)
+        {
+            return null;
+        }
+
+
         public Knight(bool color,int id) : base(color,id) { }
     }
 }

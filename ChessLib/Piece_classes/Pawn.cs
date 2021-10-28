@@ -59,6 +59,11 @@ namespace ChessLib.Piece_classes
             else return false; //piece of same color
         }
 
+        public override List<int[]> InTheWay(Square start, Square end)
+        {
+            return null;
+        }
+
         public Pawn(bool color,int id) :base(color,id){ }
     }
 }
