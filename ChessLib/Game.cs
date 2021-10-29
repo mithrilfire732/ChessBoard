@@ -203,14 +203,17 @@ namespace ChessLib
                     continue;
                 }
                 else
-                { Piece p = s.getPiece();
+                {
+                    Piece p = s.getPiece();
                     if (p.isWhite() == Player1.White)
                     {
                         Player1.PlayerPieces.Add(p.GetId(), p);
+                        p.player = Player1;
                     }
                     if (s.getPiece().isWhite() == Player2.White)
                     {
                         Player2.PlayerPieces.Add(p.GetId(), p);
+                        p.player = Player2;
                     }
                 }
             }
@@ -288,8 +291,15 @@ namespace ChessLib
             }
             foreach (Square s in board.squares)
             {
-                if (king.CanMove(king.GetSquare(), s))
+                if (king.CanMove(king.GetSquare(), s)) // TODO create a method to test hypothetical position
                 {
+                    if (s.getPiece()!=null)
+                    {
+                        s.getPiece().killPiece(true);
+                        king.GetSquare().setPiece(null);
+                        s.setPiece(king);
+                        return IsCheck(thisPlayer);
+                    }
                     moves.Add(s);
                 }
                 

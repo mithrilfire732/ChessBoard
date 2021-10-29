@@ -13,6 +13,7 @@ namespace ChessLib
         private bool Dead { get; set; } = false;
         private bool White { get; set; }
         private Square Square { get; set; }
+        public Player player { get; set; }
 
         public void killPiece(bool killed)
         {
