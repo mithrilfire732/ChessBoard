@@ -75,8 +75,8 @@ namespace ChessLib
             var y1 = start.getY();
             var x2 = end.getX();
             var y2 = end.getY();
-            var xdelta = x1 - x2;
-            var ydelta = y1 - y2;
+            var xdelta = x2 - x1;
+            var ydelta = y2 - y1;
             int[] inc = new int[2];
             List<int[]> testsq = new List<int[]>();
             switch (xdelta)
@@ -103,7 +103,7 @@ namespace ChessLib
                     inc[1] = 0;
                     break;
             }
-            for (int[] i = { x1, y1 }; i[0] < x2 && i[1] < y2; i.Zip(inc, (x, y) => x + y))
+            for (int[] i = { x1 + inc[0], y1 + inc[1]}; (i[0] != x2 ) && (i[1] != y2); i = i.Zip(inc, (x, y) => x + y).ToArray())
             {
                 testsq.Add(i);
             }
