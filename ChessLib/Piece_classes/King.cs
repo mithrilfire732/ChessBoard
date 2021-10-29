@@ -36,8 +36,7 @@ namespace ChessLib
                                 && (ydelta <= 1)
                                     && (xdelta + ydelta > 0);
             }
-
-                
+               
 
                 else return false;
         }

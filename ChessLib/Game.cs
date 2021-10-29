@@ -77,16 +77,14 @@ namespace ChessLib
 
         }
 
-        // Move()
-        // Turn() method
-            //Input: Coords for Piece to move, Coords for destination
-            //output: void
+        // MOVESHELL()
+            //Takes in a player and four integers which are used as indexs to squares. 
 
-        public void Turn(Player player, int xw,int yw, int xb, int yb)
+        public void MoveShell(Player player, int xw,int yw, int xb, int yb)
         {
             int[] coords = { xw, yw, xb, yb };
-            Player mover = player == Player1 ? Player1 : Player2;
-            Player defender = player == Player1 ? Player2 : Player1;
+            Player thisPlayer = player == Player1 ? Player1 : Player2;
+            Player otherPlayer = player == Player1 ? Player2 : Player1;
             Square start = board.GetSquare(xw, yw);
             Square end = board.GetSquare(xb, yb);
             
@@ -99,14 +97,14 @@ namespace ChessLib
             }
             
             
-            Move(mover, start, end);
+            ExecMove(thisPlayer, start, end);
             
 
-            if (IsCheck(mover))
+            if (IsCheck(thisPlayer))
             {
-                if (Checkmate(mover))
+                if (Checkmate(thisPlayer))
                 {
-                    Win = mover;
+                    Win = thisPlayer;
                 }
                 else
                 {
@@ -123,16 +121,20 @@ namespace ChessLib
 
         }
 
-        public void Move(Player player, Square start, Square end)
+        public void ExecMove(Player player, Square start, Square end)
         {
-            Player mover  = player == Player1 ? Player1 : Player2;
-            Player defender = player == Player1 ? Player2 : Player1;
+            Player thisPlayer  = player == Player1 ? Player1 : Player2;
+            Player otherPlayer = player == Player1 ? Player2 : Player1;
             Piece moved = start.getPiece();
             Piece captured = end.getPiece();
             bool capture = captured != null;
             //// In order to decrease necessary iterations for IsCheck() and Checkmate(), 
             /// Pieces have Squares as properties and vice versa.
             /// Therefore in order to check, both must be updated and reset if check fails.
+            if (moved.isWhite()!=thisPlayer.White)
+            {
+                throw new Exception("Move your own pieces, jerk!");
+            }
             if (moved.CanMove(start,end)&& !Obstructed(moved.InTheWay(start,end)))
             {
 
@@ -142,26 +144,26 @@ namespace ChessLib
                 if (capture)
                 {
                     captured.SetSquare(null);
+                    captured.killPiece(true);
                 }
-                if (IsCheck(defender))    //if illegal move, resets pieces
+                if (IsCheck(otherPlayer))    //if illegal move, resets pieces
                 {
                     start.setPiece(moved);
                     end.setPiece(captured);
                     moved.SetSquare(start);
-                    if (capture) { captured.SetSquare(end); }
+                    if (capture) { captured.SetSquare(end); captured.killPiece(false); }
                     throw new Exception("Invalid move, player in check");
                 }
                 else
                 {
                     if (capture) // if capture, updates captured piece to be dead and have null square
                     {
-                        captured.killPiece(true);
                         UpdatePieceInDict(captured);
                     }
                     UpdatePieceInDict(moved);
                 }
             }
-            else { throw new Exception("Invalid move"); }
+            else { throw new Exception("Invalid move - does not obey piece move rules"); }
             
         }
 
@@ -189,7 +191,7 @@ namespace ChessLib
         }
 
 
-        //updateall can be used to initially generate or regenerate
+        //updateall can be used to initially generate or regenerate in case of corruption
         public void UpdateAllPieces()
         {
             Player1.PlayerPieces.Clear();
@@ -229,16 +231,16 @@ namespace ChessLib
 
 
 
-        //IsCheck() Returns Bool. Takes a player as a parameter, gets kings square,
-        //Iterates through opponent Player.PlayerPieces dict and applies CanMove() to King's Square
+        //IsCheck() Returns Bool. Takes the active player as a parameter, gets other player's king's square,
+        //Iterates through the active Player.PlayerPieces dict and applies CanMove() to other King's Square
         //Returns boolean true if any piece can move to kings square
 
         public bool IsCheck(Player player)
         {
-            Player mover = player == Player1 ? Player1 : Player2;
-            Player defender = player == Player1 ? Player2 : Player1;
+            Player thisPlayer = player == Player1 ? Player1 : Player2;
+            Player otherPlayer = player == Player1 ? Player2 : Player1;
             Square check_square = null;
-            foreach (Piece p in defender.PlayerPieces.Values)
+            foreach (Piece p in otherPlayer.PlayerPieces.Values)
             {
                 if (p.GetType() == typeof(King))
                 {
@@ -248,7 +250,7 @@ namespace ChessLib
                 else continue;
             }
 
-            foreach (Piece p in mover.PlayerPieces.Values.Where(o=>o.isDead()==false) )
+            foreach (Piece p in thisPlayer.PlayerPieces.Values.Where(o=>o.isDead()==false) )
             {
                 Square start = new Square() { }; //not sure if this is needed
                 start = p.GetSquare();
@@ -258,24 +260,6 @@ namespace ChessLib
                 }
                 else continue;
             }
-
-            //foreach (Square s in board.squares)
-            //{
-            //    if (s.getPiece() == null || s.getPiece().isWhite() == player.White)
-            //    {
-            //        continue;
-            //    }
-            //    else if (s.getPiece().isWhite() != player.White)
-            //    {
-            //        if (s.getPiece().CanMove(s, check_square))
-            //        {
-            //            return true;
-            //        }
-            //        else continue;
-            //    }
-            //    else continue;
-            //}
-
             return false;
 
         }
@@ -288,12 +272,12 @@ namespace ChessLib
 
         public bool Checkmate(Player player)
         {
-            Player mover = player == Player1 ? Player1 : Player2;
-            Player defender = player == Player1 ? Player2 : Player1;
+            Player thisPlayer = player == Player1 ? Player1 : Player2;
+            Player otherPlayer = player == Player1 ? Player2 : Player1;
             Piece king = null;
             List<Square> moves = new List<Square>();
 
-            foreach (Piece p in mover.PlayerPieces.Values)
+            foreach (Piece p in otherPlayer.PlayerPieces.Values)
             {
                 if (p.GetType() == typeof(King))
                 {
@@ -310,23 +294,34 @@ namespace ChessLib
                 }
                 
             }
-            foreach (Piece p in defender.PlayerPieces.Values)
+            List<Square> coveredSquares = new List<Square>();
+            foreach (Piece p in thisPlayer.PlayerPieces.Values.Where(o=>o.isDead()==false))
             {
                 foreach (Square square in moves)
                 {
-                    if (p.CanMove(p.GetSquare(), square))
+                    if (p.CanMove(p.GetSquare(), square)
+                        && !Obstructed(p.InTheWay(p.GetSquare(),square)))
                     {
-                        moves.Remove(square);
-                    }
-                    if (!moves.Any())
-                    {
-                        return true;
+                        if (!coveredSquares.Contains(square)){
+                            coveredSquares.Add(square);
+                        }
+                        else continue;
                     }
 
                 }
 
             }
-            return false;
+
+            foreach (Square move in coveredSquares)
+            {
+                moves.Remove(move);
+            }
+
+            if (!moves.Any())
+            {
+                return true;
+            }
+            else { return false; }
 
         }
 

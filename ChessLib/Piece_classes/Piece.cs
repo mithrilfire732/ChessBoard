@@ -68,6 +68,7 @@ namespace ChessLib
             }
         }
 
+        //TODO rename to better reflect output
         // Gathers a collection of x,y for squares that need checked in the Game class for a piece to determine if a move is obstructed, override in Knight, King, and Pawn classes.
         public virtual List<int[]> InTheWay(Square start, Square end)
         {
