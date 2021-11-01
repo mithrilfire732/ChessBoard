@@ -295,12 +295,28 @@ namespace ChessLib
                 {
                     if (s.getPiece()!=null)
                     {
-                        s.getPiece().killPiece(true);
-                        king.GetSquare().setPiece(null);
+                        var capture = s.getPiece();
+                        var sq = king.GetSquare();
+                        capture.killPiece(true);
+                        sq.setPiece(null);
                         s.setPiece(king);
-                        return IsCheck(thisPlayer);
+                        king.SetSquare(s);
+                        bool check = IsCheck(thisPlayer);
+                        s.setPiece(capture);
+                        sq.setPiece(king);
+                        capture.killPiece(false);
+                        king.SetSquare(sq);
+                        if (check)
+                        {
+                            continue;
+                        }
+                        else { moves.Add(s); }
+                        
                     }
-                    moves.Add(s);
+                    else
+                    {
+                        moves.Add(s);
+                    }
                 }
                 
             }
